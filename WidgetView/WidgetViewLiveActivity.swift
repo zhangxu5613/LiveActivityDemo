@@ -1,10 +1,3 @@
-//
-//  WidgetViewLiveActivity.swift
-//  WidgetView
-//
-//  Created by 张徐 on 2025/8/2.
-//
-
 import ActivityKit
 import WidgetKit
 import SwiftUI
@@ -18,21 +11,23 @@ struct WidgetViewLiveActivity: Widget {
         ActivityConfiguration(for: LiveActivityAttributes.self) { context in
             // Lock screen/banner UI goes here
             VStack {
-                Text("Hello \(context.state.text)")
-                if showCountdownItems {
-                    HStack {
-                        ProgressView(
-                            timerInterval: startTime...endTime,
-                            countsDown: true,
-                            label: { EmptyView() },
-                            currentValueLabel: { EmptyView() }
-                        )
-                        .tint(Color.red)
-                        .progressViewStyle(.circular)
-                        Text(timerInterval: startTime...endTime,
-                             pauseTime: context.state.pauseTime,
-                             countsDown: true,
-                             showsHours: false)
+                HStack(spacing: 12) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 12))
+                        Text(context.state.upload)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.green)
+                    }
+                    
+                    HStack(spacing: 4) {
+                        Image(systemName: "arrow.down.circle.fill")
+                            .foregroundColor(.blue)
+                            .font(.system(size: 12))
+                        Text(context.state.dwload)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.blue)
                     }
                 }
             }
@@ -41,50 +36,110 @@ struct WidgetViewLiveActivity: Widget {
 
         } dynamicIsland: { context in
             DynamicIsland {
-                // Expanded UI goes here.  Compose the expanded UI through
-                // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+                    HStack(spacing: 6) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 14))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("上传")
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundColor(.secondary)
+                            Text(context.state.upload)
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundColor(.green)
+                        }
+                    }
+                    .padding(.horizontal, 8)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+                    HStack(spacing: 6) {
+                        Image(systemName: "arrow.down.circle.fill")
+                            .foregroundColor(.blue)
+                            .font(.system(size: 14))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("下载")
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundColor(.secondary)
+                            Text(context.state.dwload)
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    .padding(.horizontal, 8)
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom \(context.state.text)")
-                    // more content
+                    HStack(spacing: 16) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "wifi")
+                                .foregroundColor(.green)
+                                .font(.system(size: 12))
+                            Text("网络监控")
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Text("实时更新")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.horizontal, 8)
                 }
             } compactLeading: {
-                Text("L")
+                HStack(spacing: 4) {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 10))
+                    Text(context.state.upload)
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundColor(.green)
+                }
             } compactTrailing: {
-                Text("T \(context.state.text)")
+                HStack(spacing: 4) {
+                    Image(systemName: "arrow.down.circle.fill")
+                        .foregroundColor(.blue)
+                        .font(.system(size: 10))
+                    Text(context.state.dwload)
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundColor(.blue)
+                }
             } minimal: {
-                Text(context.state.text)
+                HStack(spacing: 3) {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 8))
+                    Text(context.state.upload)
+                        .font(.system(size: 8, weight: .medium))
+                        .foregroundColor(.green)
+                }
             }
             .widgetURL(URL(string: "http://www.apple.com"))
-            .keylineTint(Color.red)
+            .keylineTint(Color.cyan)
         }
     }
 }
-
-extension LiveActivityAttributes {
-    fileprivate static var preview: LiveActivityAttributes {
-        LiveActivityAttributes(id: "Ficow Shen")
-    }
-}
-
-extension LiveActivityAttributes.ContentState {
-    fileprivate static var smiley: LiveActivityAttributes.ContentState {
-        LiveActivityAttributes.ContentState(text: "😀")
-     }
-     
-     fileprivate static var starEyes: LiveActivityAttributes.ContentState {
-         LiveActivityAttributes.ContentState(text: "🤩")
-     }
-}
-
-#Preview("Notification", as: .content, using: LiveActivityAttributes.preview) {
-   WidgetViewLiveActivity()
-} contentStates: {
-    LiveActivityAttributes.ContentState.smiley
-    LiveActivityAttributes.ContentState.starEyes
-}
+//
+//extension LiveActivityAttributes {
+//    fileprivate static var preview: LiveActivityAttributes {
+//        LiveActivityAttributes(id: "Ficow Shen")
+//    }
+//}
+//
+//extension LiveActivityAttributes.ContentState {
+//    fileprivate static var smiley: LiveActivityAttributes.ContentState {
+//        LiveActivityAttributes.ContentState(text: "😀")
+//     }
+//     
+//     fileprivate static var starEyes: LiveActivityAttributes.ContentState {
+//         LiveActivityAttributes.ContentState(text: "🤩")
+//     }
+//}
+//
+//#Preview("Notification", as: .content, using: LiveActivityAttributes.preview) {
+//   WidgetViewLiveActivity()
+//} contentStates: {
+//    LiveActivityAttributes.ContentState.smiley
+//    LiveActivityAttributes.ContentState.starEyes
+//}

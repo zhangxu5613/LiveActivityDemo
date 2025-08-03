@@ -1,10 +1,3 @@
-//
-//  ActivityController.swift
-//  LiveActivityDemo
-//
-//  Created by 张徐 on 2025/8/2.
-//
-
 import Foundation
 import ActivityKit
 import os.activity
@@ -189,22 +182,22 @@ final class ActivityController {
         latestCachedState = nil
 
         os_log("%@", type: .debug, "!!!!! updateActivity\nstate: \(state)\nstaleDate:\(staleDate)\nalert:\(alert)")
-        Task { @MainActor in
-            var alertConfig: AlertConfiguration?
-            if let alert {
-                alertConfig = AlertConfiguration(
-                    title: LocalizedStringResource(stringLiteral: alert.title),
-                    body: LocalizedStringResource(stringLiteral: alert.body),
-                    sound: .default
-                )
-            }
+        Task {
+            @MainActor in
+//            var alertConfig: AlertConfiguration?
+//            if let alert {
+//                alertConfig = AlertConfiguration(
+//                    title: LocalizedStringResource(stringLiteral: alert.title),
+//                    body: LocalizedStringResource(stringLiteral: alert.body),
+//                    sound: .default
+//                )
+//            }
             await activity.update(
                 ActivityContent<LiveActivityAttributes.ContentState>(
                     state: state,
                     staleDate: staleDate,
-                    relevanceScore: alertConfig != nil ? 100 : 50
-                ),
-                alertConfiguration: alertConfig
+                    relevanceScore: 50
+                )
             )
         }
     }

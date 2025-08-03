@@ -2,7 +2,7 @@
 //  WidgetView.swift
 //  WidgetView
 //
-//  Created by 张徐 on 2025/8/2.
+//  Created by Ficow on 2024/1/21.
 //
 
 import WidgetKit
@@ -30,10 +30,6 @@ struct Provider: AppIntentTimelineProvider {
 
         return Timeline(entries: entries, policy: .atEnd)
     }
-
-//    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
 }
 
 struct SimpleEntry: TimelineEntry {
